@@ -1,0 +1,93 @@
+<div class="container mt-5">
+    <form [formGroup]="form" class="m-5" (submit)="search()">
+        <div class="columns is-multiline is-mobile">
+            <p class="control column is-one-fifth-desktop is-two-third-mobile">
+                <a class="button is-link" [routerLink]="['/empleados/crear']" type="button">
+                    Registrar empleado
+                </a>
+            </p>
+            <p class="control column is-one-fifth-desktop is-one-third-mobile ml-2">
+                <span class="select is-success">
+                    <select (change)="search()" formControlName="activo" placeholder="Super usuario">
+                        <option selected disabled>Estado</option>
+                        <option [ngValue]="true">Activo</option>
+                        <option [ngValue]="false">Inactivo</option>
+                    </select>
+                </span>
+
+            </p>
+            <div class="column is-three-fifth-desktop is-full-mobile search">
+                <div class="columns is-mobile is-multiline">
+                    <p class="control column is-10">
+                        <input type="text" class=" input is-dark " formControlName="search"
+                            [ngClass]="{'is-loading':(isLoading|async)}" placeholder="Buscar">
+                    </p>
+                    <p class="control column is-1">
+                        <button class="button is-info" type="submit" (submit)="true">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </p>
+
+                </div>
+
+            </div>
+        </div>
+    </form>
+    <table *ngIf="empleados$ | async as empleados"
+        class="table is-fullwidth is-stripped is-narrow is-hoverable box mt-5 m-2">
+        <thead>
+            <tr>
+                <th><abbr title="Position">id</abbr></th>
+                <th><abbr title="Played">Nombre completo</abbr></th>
+                <th><abbr title="Won">Correo</abbr></th>
+                <th><abbr title="Drawn">Identificación</abbr></th>
+                <th><abbr title="Lost">País</abbr></th>
+                <th><abbr title="Goals against">Estado</abbr></th>
+                <th><abbr title="Goal difference">Acción</abbr></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="empleados.length==0" style="width: 100%">
+                <td colspan="7">
+                    No se encontraron resultados
+                </td>
+            </tr>
+            <tr [routerLink]="['ver/'+empleado.id]" *ngFor="let empleado of empleados">
+                <th>{{empleado.id}}</th>
+                <td>{{empleado.primerApellido + ' ' + empleado.segundoApellido + ' ' + empleado.primerNombre |
+                    titlecase}}
+                </td>
+                <td>{{empleado.correo}}</td>
+                <td>{{empleado.numeroIdentificacion}}</td>
+                <td>{{empleado.pais | titlecase}}</td>
+                <td>{{empleado.activo? 'Activo': 'Inactivo'}}</td>
+                <td>
+                    <button [routerLink]="['actualizar/'+empleado.id]" (click)="$event.stopPropagation()"
+                        class="button is-link is-small is-rounded is-outlined " type="button">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button (click)="eliminar(empleado.id);$event.stopPropagation()"
+                        class="button is-danger is-small is-rounded is-outlined " type="button">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr style="width:100%">
+                <td colspan="7">
+                    <button [disabled]="page==1" class="button is-link is-outlined is-small is-rounded mr-2"
+                        type="button" (click)="prevPage()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    {{page}}
+                    <button [disabled]="empleados.length != limit"
+                        class="button is-link is-outlined is-small is-rounded ml-2" type="button" (click)="nextPage()">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </td>
+            </tr>
+
+        </tfoot>
+    </table>
+</div>

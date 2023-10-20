@@ -1,0 +1,123 @@
+<div class="container mt-5">
+    <div class="box m-2">
+        <h1 class="title is-2 is-faded has-text-grey">
+            Registrar empleado
+        </h1>
+        <form class="block p-5 is-flex is-flex-direction-column" [formGroup]="form" (submit)="submit()">
+            <div class="columns is-multiline is-mobile">
+                <div class="column is-full-mobile is-half-tablet is-half-desktop">
+                    <p class="control">
+                        <input type="text" [ngClass]="{'is-danger': isInvalidInput('primerApellido')}"
+                            class="input is-rounded" formControlName="primerApellido" placeholder="Primer Apellido">
+                    </p>
+                    <div *ngIf="isInvalidInput('primerApellido')" class="notification is-danger is-light">
+                        <p>Recuerda que este campo debe ingresarse en mayúsculas y debe tener menos de 20 caracteres</p>
+                    </div>
+                </div>
+                <div class="column is-full-mobile is-half-tablet is-half-desktop">
+                    <p class="control">
+                        <input type="text" [ngClass]="{'is-danger': isInvalidInput('segundoApellido')}" class="input is-rounded" formControlName="segundoApellido"
+                            placeholder="Segundo Apellido">
+                    </p>
+                    <div *ngIf="isInvalidInput('segundoApellido')" class="notification is-danger is-light">
+                        <p>Recuerda que este campo debe ingresarse en mayúsculas y debe tener menos de 20 caracteres</p>
+                    </div>
+                </div>
+                <div class="column is-full">
+                    <p class="control">
+                        <input type="text" [ngClass]="{'is-danger': isInvalidInput('primerNombre')}" class="input is-rounded" formControlName="primerNombre"
+                            placeholder="Primer Nombre">
+                    </p>
+                    <div *ngIf="isInvalidInput('primerNombre')" class="notification is-danger is-light">
+                        <p>Recuerda que este campo debe ingresarse en mayúsculas y debe tener menos de 20 caracteres</p>
+                    </div>
+                </div>
+                <div class="column is-full">
+                    <p class="control">
+                        <input type="text" [ngClass]="{'is-danger': isInvalidInput('otrosNombres')}" class="input is-rounded" formControlName="otrosNombres"
+                            placeholder="Otros Nombres">
+                    </p>
+                    <div *ngIf="isInvalidInput('otrosNombres')" class="notification is-danger is-light">
+                        <p>Recuerda que este campo debe ingresarse en mayúsculas y debe tener menos de 20 caracteres</p>
+                    </div>
+                </div>
+                <div class="column is-full">
+                    <p class="control">
+                        <input type="text" [ngClass]="{'is-danger': isInvalidInput('numeroIdentificacion')}" formControlName="numeroIdentificacion" class="input is-rounded"
+                            placeholder="Número de identificación">
+                    </p>
+                    <div *ngIf="isInvalidInput('numeroIdentificacion')" class="notification is-danger is-light">
+                        <p>Recuerda que este campo solo acepta un caracter especial que es el guion "-"</p>
+                    </div>
+                </div>
+
+                <div class="column is-full-mobile is-half-tablet is-one-four-desktop">
+                    <div class="control">
+                        <div class="select is-rounded" style="width:100%;">
+                            <select [ngClass]="{'is-danger': isInvalidInput('pais')}" formControlName="pais" placeholder="País" style="width: 100%;">
+                                <option disabled>País</option>
+                                <option selected [value]="'COLOMBIA'">Colombia</option>
+                                <option [value]="'ESTADOS UNIDOS'">Estados Unidos</option>
+                            </select>
+                        </div>
+                        <div *ngIf="isInvalidInput('pais')" class="notification is-danger is-light">
+                            <p>Debes elegir el país</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-full-mobile is-half-tablet is-one-four-desktop">
+                    <div class="control">
+                        <div class="select is-rounded" style="width:100%;">
+                            <select formControlName="activo" [ngClass]="{'is-danger': isInvalidInput('activo')}" placeholder="Super usuario" style="width: 100%;">
+                                <option selected disabled>Activo</option>
+                                <option [ngValue]="true">Activo</option>
+                                <option [ngValue]="false">Inactivo</option>
+                            </select>
+                        </div>
+                        <div *ngIf="isInvalidInput('is_superuser')" class="notification is-danger is-light">
+                            <p>Debes elegir si está o no activo</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-full-mobile is-half-tablet is-one-four-desktop">
+                    <div class="control">
+                        <div class="select is-rounded" style="width:100%;">
+                            <select formControlName="is_superuser" [ngClass]="{'is-danger': isInvalidInput('is_superuser')}" placeholder="Super usuario" style="width: 100%;">
+                                <option selected disabled>Super usuario</option>
+                                <option [value]="true">Sí</option>
+                                <option [value]="false">No</option>
+                            </select>
+                        </div>
+                        <div *ngIf="isInvalidInput('is_superuser')" class="notification is-danger is-light">
+                            <p>Debes elegir si es o no super usuario</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-full-mobile is-half-tablet is-one-four-desktop">
+                    <div class="control">
+                        <div class="select is-rounded" [ngClass]="{'is-danger': isInvalidInput('area_id')}" style="width:100%;">
+                            <select formControlName="area_id" placeholder="Área" style="width: 100%;">
+                                <option disabled [value]="0">Área</option>
+                                <option selected [value]="area.id" *ngFor="let area of areas">{{area.nombre}}</option>
+                            </select>
+                        </div>
+                        <div *ngIf="isInvalidInput('area_id')" class="notification is-danger is-light">
+                            <p>Debes elegir el área a la que pertenece</p>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="buttons is-flex is-justify-content-flex-end mt-5 w-100">
+                <button class="button is-danger is-rounded is-medium" routerLink="../../" type="button"> Cancelar </button>
+                <button class="button is-success is-rounded is-medium" [ngClass]="{'is-loading': (isLoading | async)}"
+                    type="submit" [disabled]="form.invalid">
+                    Actualizar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
