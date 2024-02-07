@@ -1,0 +1,99 @@
+<div class="container mt-5">
+  <div class="box m-2">
+    <h1 class="title is-2 is-faded has-text-grey">Registrar producto</h1>
+    <form
+      class="block p-5 is-flex is-flex-direction-column"
+      [formGroup]="form"
+      (submit)="submit()"
+    >
+      <div class="columns is-multiline is-mobile">
+        <div class="column is-full-mobile is-half-tablet is-half-desktop">
+          <p class="control">
+            <input
+              type="text"
+              [ngClass]="{ 'is-danger': isInvalidInput('reference') }"
+              class="input is-rounded"
+              formControlName="reference"
+              placeholder="Referencia"
+            />
+          </p>
+          <div
+            *ngIf="isInvalidInput('reference')"
+            class="notification is-danger is-light"
+          >
+            <p>Recuerda que este campo debe tener menos de 50 caracteres</p>
+          </div>
+        </div>
+        <div class="column is-full-mobile is-half-tablet is-half-desktop">
+          <p class="control">
+            <input
+              type="text"
+              [ngClass]="{ 'is-danger': isInvalidInput('name') }"
+              class="input is-rounded"
+              formControlName="name"
+              placeholder="Nombre"
+            />
+          </p>
+          <div
+            *ngIf="isInvalidInput('name')"
+            class="notification is-danger is-light"
+          >
+            <p>Recuerda que este campo debe tener menos de 50 caracteres</p>
+          </div>
+        </div>
+        <div class="column is-full">
+          <textarea
+            class="textarea is-rounded"
+            [ngClass]="{ 'is-danger': isInvalidInput('description') }"
+            formControlName="description"
+            placeholder="descripción"
+            rows="4"
+          ></textarea>
+          <div
+            *ngIf="isInvalidInput('description')"
+            class="notification is-danger is-light"
+          >
+            <p>Recuerda que este campo debe tener menos de 250 caracteres</p>
+          </div>
+        </div>
+        <div class="column is-full">
+          <p class="control">
+            <input
+              type="number"
+              [ngClass]="{
+                'is-danger': isInvalidInput('value')
+              }"
+              formControlName="value"
+              class="input is-rounded"
+              placeholder="Valor"
+            />
+          </p>
+          <div
+            *ngIf="isInvalidInput('value')"
+            class="notification is-danger is-light"
+          >
+            <p>Recuerda que este es obligatorio y mayor a 0</p>
+          </div>
+        </div>
+      </div>
+      <div class="buttons is-flex is-justify-content-flex-end mt-5 w-100">
+        <button
+          class="button is-danger is-rounded is-medium"
+          routerLink="../"
+          type="button"
+          *ngIf="!isModal"
+        >
+          Cancelar
+        </button>
+        <button
+          class="button is-success is-rounded is-medium"
+          [ngClass]="{ 'is-loading': (isLoading | async) }"
+          type="submit"
+          [disabled]="form.invalid"
+        >
+          Crear
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

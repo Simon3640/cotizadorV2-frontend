@@ -1,0 +1,124 @@
+<div class="container mt-5">
+  <article class="media box">
+    <figure class="media-left">
+      <p class="image is-64x64">
+        <!-- <img [src]="sale?.image" /> -->
+      </p>
+    </figure>
+    <div class="media-content">
+      <div class="content">
+        <div class="columns is-multiline is-mobile">
+          <div class="column isone-fifth-desktop is-one-third-mobile">
+            <strong>Venta #{{ sale.id }}</strong>
+            <small
+              class="tag ml-2"
+              [ngClass]="{
+                'is-success': sale.status == 'pagada',
+                'is-info': sale.status == 'cotización',
+                'is-danger': sale.status == 'cancelada',
+                'is-warning': sale.status == 'remisión'
+              }"
+              >{{ sale.status | titlecase }}</small
+            >
+          </div>
+          <form
+            [formGroup]="form"
+            class="m-5 column is-one-fifth-desktop is-one-third-mobile ml-2"
+            (submit)="update()"
+          >
+            <p class="control">
+              <span class="select is-success is-small">
+                <select
+                  (change)="update()"
+                  formControlName="status"
+                  placeholder="Super usuario"
+                >
+                  <option selected disabled>Estado</option>
+                  <option [ngValue]="'cotización'">Cotización</option>
+                  <option [ngValue]="'pagada'">Pagada</option>
+                  <option [ngValue]="'cancelado'">Cancelado</option>
+                  <option [ngValue]="'remisión'">Remisión</option>
+                </select>
+              </span>
+            </p>
+          </form>
+        </div>
+
+        <p>Total: {{ sale.total | currency :'USD':'symbol':'1.0'}}</p>
+        <p>Total impuestos: {{ sale.total_tax | currency :'USD':'symbol':'1.0'}}</p>
+        <p>Total sin impuestos: {{ sale.total - sale.total_tax | currency :'USD':'symbol':'1.0'}}</p>
+        <p>Total descuentos: {{ sale.total_discount | currency :'USD':'symbol':'1.0'}}</p>
+        <p *ngIf="sale.document">
+          Factura:
+          <i
+            class="is-clickable fas fa-file"
+            (click)="openDocument(sale.document); $event.stopPropagation()"
+          ></i>
+        </p>
+      </div>
+      <strong>Productos</strong>
+      <table
+        class="table is-fullwidth is-stripped is-narrow is-hoverable mt-5 m-2"
+      >
+        <thead style="width: 100%">
+          <tr>
+            <th><abbr>Identificador</abbr></th>
+            <th><abbr>Referencia</abbr></th>
+            <th><abbr>Nombre</abbr></th>
+            <th><abbr>Valor</abbr></th>
+            <th><abbr>Cantidad</abbr></th>
+            <th><abbr>Impuestos</abbr></th>
+            <th><abbr>Descuento</abbr></th>
+          </tr>
+        </thead>
+        <tbody style="width: 100%">
+          <tr
+            [routerLink]="['ver/' + sale_product.product.id]"
+            *ngFor="let sale_product of sale.sale_product"
+          >
+            <th>{{ sale_product.product.id }}</th>
+            <td>{{ sale_product.product.reference }}</td>
+            <td>{{ sale_product.product.name }}</td>
+            <td>{{ sale_product.product.value | currency :'USD':'symbol':'1.0'}}</td>
+            <td>{{ sale_product.total }}</td>
+            <td>{{ sale_product.tax }}%</td>
+            <td>{{ sale_product.discount }}%</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Fecha de creación:
+        <small class="ml-2">{{ sale.created_at | date : "medium" }}</small>
+      </p>
+      <p>
+        Última actualización:
+        <small class="ml-2">{{ sale.updated_at | date : "medium" }}</small>
+      </p>
+      <nav class="level">
+        <div class="level-left">
+          <button
+            class="button is-small is-rounded is-outlined"
+            routerLink="/sales"
+          >
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <button
+            [routerLink]="['/sales/actualizar/' + sale.id]"
+            (click)="$event.stopPropagation()"
+            disabled
+            class="button is-link is-small is-rounded is-outlined"
+          >
+            <i class="fas fa-edit"></i>
+          </button>
+          <button
+            (click)="eliminar(sale.id); $event.stopPropagation()"
+            disabled
+            class="button is-danger is-small is-rounded is-outlined"
+          >
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </article>
+</div>

@@ -1,0 +1,249 @@
+<div class="container mt-5">
+  <div class="box m-2">
+    <h1 class="title is-2 is-faded has-text-grey">Registrar venta</h1>
+    <div class="box">
+      <h3 class="title is-3 is-faded">Selecciona los productos:</h3>
+      <form
+        [formGroup]="form_products"
+        class="m-5"
+        (submit)="search_products()"
+      >
+        <div class="columns is-multiline is-mobile">
+          <p class="control column is-one-fifth-desktop is-two-third-mobile">
+            <a
+              class="button is-success is-light"
+              (click)="openCreateProduct()"
+              type="button"
+            >
+              Registrar producto
+            </a>
+          </p>
+          <div class="column is-three-fifth-desktop is-full-mobile search">
+            <div class="columns is-mobile is-multiline">
+              <p class="control column is-10">
+                <input
+                  type="text"
+                  class="input is-dark"
+                  formControlName="search"
+                  [ngClass]="{ 'is-loading': (isLoading | async) }"
+                  placeholder="Buscar"
+                />
+              </p>
+              <p class="control column is-1">
+                <button class="button is-info" type="submit" (submit)="(true)">
+                  <i class="fas fa-search"></i>
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+      <table
+        *ngIf="products$ | async as products"
+        class="table is-fullwidth is-stripped is-narrow is-hoverable mt-5 m-2"
+      >
+        <thead style="width: 100%">
+          <tr>
+            <th><abbr>Identificador</abbr></th>
+            <th><abbr>Referencia</abbr></th>
+            <th><abbr>Nombre</abbr></th>
+            <th><abbr>Valor</abbr></th>
+            <th><abbr>Acción</abbr></th>
+          </tr>
+        </thead>
+        <tbody style="width: 100%">
+          <tr *ngIf="products.length == 0" style="width: 100%">
+            <td colspan="7">No se encontraron resultados</td>
+          </tr>
+          <tr *ngFor="let product of products">
+            <th>{{ product.id }}</th>
+            <td>{{ product.reference }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.value }}</td>
+            <td>
+              <button
+                (click)="openProductSale(product); $event.stopPropagation()"
+                class="button is-success is-small is-rounded is-outlined"
+                type="button"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot style="width: 100%">
+          <tr style="width: 100%">
+            <td colspan="7">
+              <button
+                [disabled]="page_products == 1"
+                class="button is-link is-outlined is-small is-rounded mr-2"
+                type="button"
+                (click)="prevPage_products()"
+              >
+                <i class="fas fa-arrow-left"></i>
+              </button>
+              {{ page_products }}
+              <button
+                [disabled]="products.length != limit_products"
+                class="button is-link is-outlined is-small is-rounded ml-2"
+                type="button"
+                (click)="nextPage_products()"
+              >
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="box">
+      <h3 class="title is-3 is-faded">Selecciona el cliente:</h3>
+      <form [formGroup]="form" class="m-5" (submit)="search()">
+        <div class="columns is-multiline is-mobile">
+          <p class="control column is-one-fifth-desktop is-two-third-mobile">
+            <a
+              class="button is-success is-light"
+              (click)="openCreateBuyer()"
+              type="button"
+            >
+              Registrar cliente
+            </a>
+          </p>
+          <div class="column is-three-fifth-desktop is-full-mobile search">
+            <div class="columns is-mobile is-multiline">
+              <p class="control column is-10">
+                <input
+                  type="text"
+                  class="input is-dark"
+                  formControlName="search"
+                  [ngClass]="{ 'is-loading': (isLoading | async) }"
+                  placeholder="Buscar"
+                />
+              </p>
+              <p class="control column is-1">
+                <button class="button is-info" type="submit" (submit)="(true)">
+                  <i class="fas fa-search"></i>
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+      <table
+        *ngIf="buyers$ | async as buyers"
+        class="table is-fullwidth is-stripped is-narrow is-hoverable mt-5 m-2"
+      >
+        <thead>
+          <tr>
+            <th><abbr>Identificador</abbr></th>
+            <th><abbr>Nombre completo</abbr></th>
+            <th><abbr>Correo</abbr></th>
+            <th><abbr>Dirección</abbr></th>
+            <th><abbr>Teléfono</abbr></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="buyers.length == 0" style="width: 100%">
+            <td colspan="7">No se encontraron resultados</td>
+          </tr>
+          <tr
+            class="is-clickable"
+            [ngClass]="{ 'is-selected': buyerId == buyer.id }"
+            (click)="pickBuyer(buyer.id)"
+            *ngFor="let buyer of buyers"
+          >
+            <th>{{ buyer.id }}</th>
+            <td>
+              {{ buyer.names + " " + buyer.last_names + " " | titlecase }}
+            </td>
+            <td>{{ buyer.email }}</td>
+            <td>{{ buyer.address }}</td>
+            <td>{{ buyer.phone }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr style="width: 100%">
+            <td colspan="7">
+              <button
+                [disabled]="page == 1"
+                class="button is-link is-outlined is-small is-rounded mr-2"
+                type="button"
+                (click)="prevPage()"
+              >
+                <i class="fas fa-arrow-left"></i>
+              </button>
+              {{ page }}
+              <button
+                [disabled]="buyers.length != limit"
+                class="button is-link is-outlined is-small is-rounded ml-2"
+                type="button"
+                (click)="nextPage()"
+              >
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="box">
+      <h3 class="title is-3 is-faded">Resumen venta</h3>
+      <table
+        *ngIf="selectedProducts"
+        class="table is-fullwidth is-stripped is-narrow is-hoverable mt-5 m-2"
+      >
+        <thead style="width: 100%">
+          <tr>
+            <th><abbr>Referencia</abbr></th>
+            <th><abbr>Nombre</abbr></th>
+            <th><abbr>Valor</abbr></th>
+            <th><abbr>Cantidad</abbr></th>
+            <th><abbr>Impuestos</abbr></th>
+            <th><abbr>Descuento</abbr></th>
+            <th><abbr>Acción</abbr></th>
+          </tr>
+        </thead>
+        <tbody style="width: 100%">
+          <tr *ngIf="selectedProducts.length == 0" style="width: 100%">
+            <td colspan="7">No se han agregado productos</td>
+          </tr>
+          <tr *ngFor="let product of selectedProducts; index as i">
+            <td>{{ product.reference }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.value }}</td>
+            <td>{{ saleProducts[i].total }}</td>
+            <td>{{ saleProducts[i].tax }}%</td>
+            <td>{{ saleProducts[i].discount }}%</td>
+            <td>
+              <button
+                (click)="removeProductSale(i); $event.stopPropagation()"
+                class="button is-danger is-small is-rounded is-outlined"
+                type="button"
+              >
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="buttons is-flex is-justify-content-flex-end w-100">
+      <button
+        class="button is-danger is-rounded is-medium"
+        routerLink="../"
+        type="button"
+      >
+        Cancelar
+      </button>
+      <button
+        class="button is-success is-rounded is-medium"
+        [ngClass]="{ 'is-loading': (isLoading | async) }"
+        (click)="submit()"
+        [disabled]="selectedProducts.length === 0 || buyerId === 0"
+      >
+        Crear
+      </button>
+    </div>
+  </div>
+</div>

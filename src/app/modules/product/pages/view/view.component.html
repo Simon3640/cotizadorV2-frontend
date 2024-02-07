@@ -1,0 +1,54 @@
+<div class="container mt-5">
+  <article class="media box">
+    <figure class="media-left">
+      <p class="image is-64x64">
+        <img [src]="product.image" />
+      </p>
+    </figure>
+    <div class="media-content">
+      <div class="content">
+        <p>
+          <strong>{{ product.name | titlecase }}</strong>
+          <small class="ml-2">{{ product.value | currency :'USD':'symbol':'1.0'}}</small>
+          <br />
+        </p>
+        <p>Descripción: {{ product.description }}</p>
+        <p>
+          Fecha de creación:
+          <small class="ml-2">{{
+            product.created_at | date : "medium"
+          }}</small>
+        </p>
+        <p>
+          Ultima actualización:
+          <small class="ml-2">{{
+            product.updated_at | date : "medium"
+          }}</small>
+        </p>
+      </div>
+      <nav class="level">
+        <div class="level-left">
+          <button
+            class="button is-small is-rounded is-outlined"
+            routerLink="/products"
+          >
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <button
+            [routerLink]="['/products/actualizar/' + product.id]"
+            (click)="$event.stopPropagation()"
+            class="button is-link is-small is-rounded is-outlined"
+          >
+            <i class="fas fa-edit"></i>
+          </button>
+          <button
+            (click)="eliminar(product!.id); $event.stopPropagation()"
+            class="button is-danger is-small is-rounded is-outlined"
+          >
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </article>
+</div>

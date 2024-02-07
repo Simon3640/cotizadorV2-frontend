@@ -1,0 +1,96 @@
+<div class="container box mt-5">
+  <form [formGroup]="form" class="m-5" (submit)="send()">
+    <div class="columns is-multiline is-mobile">
+      <p class="control column is-one-fifth-desktop is-two-third-mobile">
+        <a class="button is-link" [routerLink]="['/sales/crear']" type="button">
+          Registrar venta
+        </a>
+      </p>
+      <p class="control column is-three-fifth-desktop is-full-mobile">
+        <input
+          type="number"
+          class="input is-rounded"
+          placeholder="Consecutivo"
+          formControlName="consecutive"
+        />
+        
+      </p>
+      <div class="column is-one-fifth-desktop">
+        <button class="button is-success">Actualizar</button>
+      </div>
+      
+    </div>
+  </form>
+  <table
+    *ngIf="sales$ | async as sales"
+    class="table is-fullwidth is-stripped is-narrow is-hoverable mt-5 m-2"
+  >
+    <thead style="width: 100%">
+      <tr>
+        <th><abbr>id</abbr></th>
+        <th><abbr>Estado</abbr></th>
+        <th><abbr>Consecutivo</abbr></th>
+        <th><abbr>Vendedor</abbr></th>
+        <th><abbr>Comprador</abbr></th>
+        <th><abbr>Fecha</abbr></th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody style="width: 100%">
+      <tr *ngIf="sales.length == 0" style="width: 100%">
+        <td colspan="7">No se encontraron resultados</td>
+      </tr>
+      <tr [routerLink]="['ver/' + sale.id]" *ngFor="let sale of sales">
+        <th>{{ sale.id }}</th>
+        <td>{{ sale.status | titlecase }}</td>
+        <td>{{ sale.consecutive ? sale.consecutive : "0000" }}</td>
+        <td>{{ sale.user.names + " " + sale.user.last_names | titlecase }}</td>
+        <td>
+          {{ sale.buyer.names + " " + sale.buyer.last_names | titlecase }}
+        </td>
+        <td>{{ sale.created_at | date }}</td>
+        <td>
+          <button
+            [routerLink]="['actualizar/' + sale.id]"
+            disabled
+            (click)="$event.stopPropagation()"
+            class="button is-link is-small is-rounded is-outlined"
+            type="button"
+          >
+            <i class="fas fa-edit"></i>
+          </button>
+          <button
+            (click)="eliminar(sale.id); $event.stopPropagation()"
+            class="button is-danger is-small is-rounded is-outlined"
+            type="button"
+          >
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot style="width: 100%">
+      <tr style="width: 100%">
+        <td colspan="7">
+          <button
+            [disabled]="page == 1"
+            class="button is-link is-outlined is-small is-rounded mr-2"
+            type="button"
+            (click)="prevPage()"
+          >
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          {{ page }}
+          <button
+            [disabled]="sales.length != limit"
+            class="button is-link is-outlined is-small is-rounded ml-2"
+            type="button"
+            (click)="nextPage()"
+          >
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

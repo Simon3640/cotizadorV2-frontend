@@ -1,36 +1,87 @@
-<nav *ngIf="(isLoged | async)" class="navbar is-dark p-2" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a class="navbar-item" [routerLink]="['/home']">
-        <img class="mr-2" src="https://www.cidenet.com.co/wp-content/uploads/2021/04/cidenet-software-a-la-medida-medellin.png">
+<nav
+  *ngIf="isLoged | async"
+  class="navbar is-dark p-2"
+  role="navigation"
+  aria-label="main navigation"
+>
+  <div class="navbar-brand">
+    <a class="navbar-item" [routerLink]="['/home']">
+      <img
+        class="mr-2"
+        [src]="
+          prefix +
+          'bucket/?key=f1e617c8-84e6-11ee-a5d9-0242ac120003Logo_principal-200x200.png'
+        "
+    /></a>
+
+    <a
+      id="burger"
+      role="button is-primary"
+      class="navbar-burger"
+      aria-label="menu"
+      aria-expanded="false"
+      data-target="navbarBasicExample"
+    >
+      <span aria-hidden="false"></span>
+      <span aria-hidden="false"></span>
+      <span aria-hidden="false"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a
+        class="navbar-item"
+        (click)="toggleMenu($event)"
+        [routerLink]="['/home']"
+      >
+        Empleados
       </a>
-  
-      <a id="burger" role="button is-primary" class="navbar-burger" aria-label="menu" aria-expanded="false"
-        data-target="navbarBasicExample">
-        <span aria-hidden="false"></span>
-        <span aria-hidden="false"></span>
-        <span aria-hidden="false"></span>
+      <a
+        class="navbar-item"
+        (click)="toggleMenu($event)"
+        [routerLink]="['/products']"
+      >
+        Productos
+      </a>
+      <a
+        class="navbar-item"
+        (click)="toggleMenu($event)"
+        [routerLink]="['/buyers']"
+      >
+        Clientes
+      </a>
+      <a
+        class="navbar-item"
+        (click)="toggleMenu($event)"
+        [routerLink]="['/sales']"
+      >
+        Ventas
       </a>
     </div>
-  
-    <div id="navbarBasicExample" class="navbar-menu">
-      <div class="navbar-start">
-        <a class="navbar-item" (click)="toggleMenu($event)" [routerLink]="['/home']">
-          Empleados
-        </a>
-      </div>
-  
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="buttons">
-            <a *ngIf="!(isLoged | async)" class="button is-info is-rounded" (click)="toggleMenu($event)" [routerLink]="['/login']">
-              ingresar
-            </a>
-            <button *ngIf="(isLoged | async)" class="button is-info is-rounded" (click)="toggleMenu($event)"
-              [routerLink]="['/home']" (click)="logOut()">
-              Salir
-            </button>
-          </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          <a
+            *ngIf="!(isLoged | async)"
+            class="button is-info is-rounded"
+            (click)="toggleMenu($event)"
+            [routerLink]="['/login']"
+          >
+            ingresar
+          </a>
+          <button
+            *ngIf="isLoged | async"
+            class="button is-info is-rounded"
+            (click)="toggleMenu($event)"
+            [routerLink]="['/home']"
+            (click)="logOut()"
+          >
+            Salir
+          </button>
         </div>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>

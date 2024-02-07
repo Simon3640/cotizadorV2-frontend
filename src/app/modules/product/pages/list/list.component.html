@@ -1,0 +1,115 @@
+<div class="container box mt-5">
+  <form [formGroup]="form" class="m-5" (submit)="search()">
+    <div class="columns is-multiline is-mobile">
+      <p class="control column is-one-fifth-desktop is-two-third-mobile">
+        <a
+          class="button is-link"
+          [routerLink]="['/products/crear']"
+          type="button"
+        >
+          Registrar producto
+        </a>
+      </p>
+      <div class="column is-three-fifth-desktop is-full-mobile search">
+        <div class="columns is-mobile is-multiline">
+          <p class="control column is-10">
+            <input
+              type="text"
+              class="input is-dark"
+              formControlName="search"
+              [ngClass]="{ 'is-loading': (isLoading | async) }"
+              placeholder="Buscar"
+            />
+          </p>
+          <p class="control column is-1">
+            <button class="button is-info" type="submit" (submit)="(true)">
+              <i class="fas fa-search"></i>
+            </button>
+          </p>
+        </div>
+      </div>
+      <div class="column is-1 file is-primary">
+        <label class="file-label">
+          <input
+            class="file-input"
+            type="file"
+            accept=".csv"
+            (change)="uploadFile($event)"
+            #fileUpload
+          />
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+          </span>
+        </label>
+      </div>
+    </div>
+  </form>
+
+  <table
+    *ngIf="products$ | async as products"
+    class="table is-fullwidth is-stripped is-narrow is-hoverable>-2"
+  >
+    <thead style="width: 100%">
+      <tr>
+        <th><abbr>Identificador</abbr></th>
+        <th><abbr>Referencia</abbr></th>
+        <th><abbr>Nombre</abbr></th>
+        <th><abbr>Valor</abbr></th>
+        <th><abbr>Acción</abbr></th>
+      </tr>
+    </thead>
+    <tbody style="width: 100%">
+      <tr *ngIf="products.length == 0" style="width: 100%">
+        <td colspan="7">No se encontraron resultados</td>
+      </tr>
+      <tr [routerLink]="['ver/' + product.id]" *ngFor="let product of products">
+        <th>{{ product.id }}</th>
+        <td>{{ product.reference }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.value |currency :'USD':'symbol':'1.0'}}</td>
+        <td>
+          <button
+            [routerLink]="['actualizar/' + product.id]"
+            (click)="$event.stopPropagation()"
+            class="button is-link is-small is-rounded is-outlined"
+            type="button"
+          >
+            <i class="fas fa-edit"></i>
+          </button>
+          <button
+            (click)="eliminar(product.id); $event.stopPropagation()"
+            class="button is-danger is-small is-rounded is-outlined"
+            type="button"
+          >
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot style="width: 100%">
+      <tr style="width: 100%">
+        <td colspan="7">
+          <button
+            [disabled]="page == 1"
+            class="button is-link is-outlined is-small is-rounded mr-2"
+            type="button"
+            (click)="prevPage()"
+          >
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          {{ page }}
+          <button
+            [disabled]="products.length != limit"
+            class="button is-link is-outlined is-small is-rounded ml-2"
+            type="button"
+            (click)="nextPage()"
+          >
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

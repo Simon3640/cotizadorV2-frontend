@@ -1,0 +1,83 @@
+<div class="box m-2">
+  <form
+    [formGroup]="form"
+    class="block p-5 is-flex is-flex-direction-column"
+    (submit)="submit()"
+  >
+    <div class="columns is-multiline is-mobile">
+      <div class="column is-full-mobile is-half-tablet is-half-desktop">
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Cantidad</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <p class="control">
+                <input
+                  type="number"
+                  class="input is-rounded"
+                  formControlName="total"
+                  placeholder="Cantidad"
+                />
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-full-mobile is-half-tablet is-half-desktop">
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">%Impuesto</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <p class="control">
+                <input
+                  type="number"
+                  class="input is-rounded"
+                  formControlName="tax"
+                  placeholder="Porcentaje impuestos"
+                />
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-full-mobile is-half-tablet is-half-desktop">
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">%Descuento</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <p class="control">
+                <input
+                  type="number"
+                  class="input is-rounded"
+                  formControlName="discount"
+                  placeholder="Porcentaje descuento"
+                />
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="buttons is-flex is-justify-content-flex-end mt-5 w-100">
+      <button
+        class="button is-danger is-rounded is-medium"
+        type="button"
+        (click)="ref.close()"
+      >
+        Cancelar
+      </button>
+      <button
+        class="button is-success is-rounded is-medium"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Agregar
+      </button>
+    </div>
+  </form>
+</div>

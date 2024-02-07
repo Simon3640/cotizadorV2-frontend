@@ -1,0 +1,152 @@
+<div class="container mt-5">
+  <div class="box m-2">
+    <h1 class="title is-2 is-faded has-text-grey">Registrar cliente</h1>
+    <form
+      class="block p-5 is-flex is-flex-direction-column"
+      [formGroup]="form"
+      (submit)="submit()"
+    >
+      <div class="columns is-multiline is-mobile">
+        <div class="column is-full-mobile is-half-tablet is-half-desktop">
+          <p class="control">
+            <input
+              type="text"
+              [ngClass]="{ 'is-danger': isInvalidInput('last_names') }"
+              class="input is-rounded"
+              formControlName="last_names"
+              placeholder="Apellidos"
+            />
+          </p>
+          <div
+            *ngIf="isInvalidInput('last_names')"
+            class="notification is-danger is-light"
+          >
+            <p>
+              Recuerda que este campo debe ingresarse en mayúsculas y debe tener
+              menos de 50 caracteres
+            </p>
+          </div>
+        </div>
+        <div class="column is-full-mobile is-half-tablet is-half-desktop">
+          <p class="control">
+            <input
+              type="text"
+              [ngClass]="{ 'is-danger': isInvalidInput('names') }"
+              class="input is-rounded"
+              formControlName="names"
+              placeholder="Nombre"
+            />
+          </p>
+          <div
+            *ngIf="isInvalidInput('names')"
+            class="notification is-danger is-light"
+          >
+            <p>
+              Recuerda que este campo debe ingresarse en mayúsculas y debe tener
+              menos de 50 caracteres
+            </p>
+          </div>
+        </div>
+        <div class="column is-full">
+          <p class="control">
+            <input
+              type="email"
+              [ngClass]="{ 'is-danger': isInvalidInput('email') }"
+              class="input is-rounded"
+              formControlName="email"
+              placeholder="email"
+            />
+          </p>
+          <div
+            *ngIf="isInvalidInput('email')"
+            class="notification is-danger is-light"
+          >
+            <p>
+              Recuerda que este campo debe ingresarse en mayúsculas y debe tener
+              menos de 50 caracteres
+            </p>
+          </div>
+        </div>
+        <div class="column is-full">
+          <p class="control">
+            <input
+              type="text"
+              [ngClass]="{
+                'is-danger': isInvalidInput('address')
+              }"
+              formControlName="address"
+              class="input is-rounded"
+              placeholder="Dirección"
+            />
+          </p>
+          <div
+            *ngIf="isInvalidInput('address')"
+            class="notification is-danger is-light"
+          >
+            <p>
+              Recuerda que este campo solo acepta un caracter especial que es el
+              guion "-"
+            </p>
+          </div>
+        </div>
+        <div class="column is-full-mobile is-half-tablet is-half-desktop">
+          <p class="control">
+            <input
+              type="text"
+              [ngClass]="{ 'is-danger': isInvalidInput('phone') }"
+              class="input is-rounded"
+              formControlName="phone"
+              placeholder="Teléfono"
+            />
+          </p>
+          <div
+            *ngIf="isInvalidInput('phone')"
+            class="notification is-danger is-light"
+          >
+            <p>
+              Recuerda que este campo debe ingresarse en mayúsculas y debe tener
+              menos de 50 caracteres
+            </p>
+          </div>
+        </div>
+        <div class="column is-full-mobile is-half-tablet is-half-desktop">
+          <p class="control">
+            <input
+              type="number"
+              [ngClass]="{ 'is-danger': isInvalidInput('age') }"
+              class="input is-rounded"
+              formControlName="age"
+              placeholder="Edad"
+            />
+          </p>
+          <div
+            *ngIf="isInvalidInput('age')"
+            class="notification is-danger is-light"
+          >
+            <p>
+              Recuerda que este campo debe ingresarse en mayúsculas y debe tener
+              menos de 50 caracteres
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="buttons is-flex is-justify-content-flex-end mt-5 w-100">
+        <button
+          class="button is-danger is-rounded is-medium"
+          routerLink="../"
+          type="button"
+        >
+          Cancelar
+        </button>
+        <button
+          class="button is-success is-rounded is-medium"
+          [ngClass]="{ 'is-loading': (isLoading | async) }"
+          type="submit"
+          [disabled]="form.invalid"
+        >
+          Actualizar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

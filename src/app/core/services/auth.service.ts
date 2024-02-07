@@ -6,13 +6,13 @@ import { Auth, Token } from '@interfaces/auth';
 import { prefix } from '@shared/data/ruta.api';
 import { CookieService } from 'ngx-cookie-service';
 import { map, Subject } from 'rxjs';
-import { EmpleadosService } from './empleado.service';
+import { EmpleadosService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private prefix = prefix + 'login/access-token';
+  private prefix = prefix + 'auth/access-token';
   private cookieToken = environment.cookieToken
 
   public isLoggedIn$ : Subject<boolean> = new Subject();
@@ -21,7 +21,7 @@ export class AuthService {
     private http: HttpClient,
     private cookieSvc: CookieService,
     private router: Router,
-    private empleadoSvc: EmpleadosService
+    private userSvc: EmpleadosService
   ) { 
     this.isLoggedIn()
   }
@@ -65,7 +65,7 @@ export class AuthService {
   }
 
   isSuperUser(){
-    this.empleadoSvc.getEmpleado(0).subscribe(
+    this.userSvc.getEmpleado(0).subscribe(
       data => this.isSuperUser$.next(data.is_superuser)
     )
   }
