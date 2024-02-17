@@ -43,4 +43,16 @@ export class EmpleadosService {
   deleteEmpleado(id: number) {
     return this.http.delete(this.urlEndPoint + '/' + id);
   }
+
+  newPassword(id: number, password: string) {
+    let params = new HttpParams();
+    params = params.append('password', password);
+    return this.http.patch<null>(
+      this.urlEndPoint + '/new-password/' + id,
+      null,
+      {
+        params: params,
+      }
+    );
+  }
 }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from '@shared/pages/login/login.component';
 import { EmpleadoGuard } from './core/guards/user.guard';
+import { RecoverPasswordComponent } from '@shared/pages/recover-password/recover-password.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'recover-password',
+    component: RecoverPasswordComponent,
   },
   {
     path: 'home',

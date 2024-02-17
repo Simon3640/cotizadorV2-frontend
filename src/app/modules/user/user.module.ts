@@ -7,6 +7,7 @@ import { CrearComponent } from './pages/crear/crear.component';
 import { VerComponent } from './pages/ver/ver.component';
 import { ListaComponent } from './pages/lista/lista.component';
 import { SharedModule } from '@shared/shared.module';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { SharedModule } from '@shared/shared.module';
     ActualizarComponent,
     CrearComponent,
     VerComponent,
-    ListaComponent
+    ListaComponent,
+    ChangePasswordComponent
   ],
   imports: [
     SharedModule,

@@ -1,6 +1,6 @@
 <div class="container mt-5">
   <div class="box m-2">
-    <h1 class="title is-2 is-faded has-text-grey">Registrar user</h1>
+    <h1 class="title is-2 is-faded has-text-grey">Actualizar usuario</h1>
     <form
       class="block p-5 is-flex is-flex-direction-column"
       [formGroup]="form"
@@ -113,6 +113,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="label">
+        <a [routerLink]="'/users/change-password/'+id">Cambiar contraseña</a>
       </div>
       <div class="buttons is-flex is-justify-content-flex-end mt-5 w-100">
         <button

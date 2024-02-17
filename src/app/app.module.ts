@@ -15,6 +15,7 @@ import { TokenInterceptor } from './core/interceptors/token.interceptor';
 
 import { SharedModule } from '@shared/shared.module';
 import { LoaderInterceptor } from './core/interceptors/loader.interceptor';
+import { RecoverPasswordComponent } from '@shared/pages/recover-password/recover-password.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { LoaderInterceptor } from './core/interceptors/loader.interceptor';
     HeaderComponent,
     FooterComponent,
     LoginComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    RecoverPasswordComponent
   ],
   imports: [
     BrowserModule,

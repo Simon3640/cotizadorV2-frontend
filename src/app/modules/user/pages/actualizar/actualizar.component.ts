@@ -20,7 +20,7 @@ export class ActualizarComponent implements OnInit {
 
   public fecha = false;
 
-  private id = 0;
+  public id = 0;
 
   constructor(
     private fb: FormBuilder,

@@ -9,21 +9,21 @@ import { map, Subject } from 'rxjs';
 import { EmpleadosService } from './user.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  private prefix = prefix + 'auth/access-token';
-  private cookieToken = environment.cookieToken
+  private prefix = prefix + 'auth/';
+  private cookieToken = environment.cookieToken;
 
-  public isLoggedIn$ : Subject<boolean> = new Subject();
+  public isLoggedIn$: Subject<boolean> = new Subject();
 
   constructor(
     private http: HttpClient,
     private cookieSvc: CookieService,
     private router: Router,
     private userSvc: EmpleadosService
-  ) { 
-    this.isLoggedIn()
+  ) {
+    this.isLoggedIn();
   }
 
   public Logged = new Subject<boolean>();
@@ -31,42 +31,49 @@ export class AuthService {
   public isSuperUser$ = new Subject<boolean>();
 
   login(auth: Auth) {
-    const headers = new HttpHeaders(
-      {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      }
-    );
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
     const body = `username=${auth.username}&password=${auth.password}`;
-    return this.http.post<Token>(this.prefix, body, { headers: headers }).pipe(
-      map(
-      (data: Token) => {
-        this.cookieSvc.delete(`${this.cookieToken}`, '/', '/')
-        this.cookieSvc.set(`_${this.cookieToken}`, data.access_token, data.expires)
-        this.Logged.next(true);
-      }
-    ))
+    return this.http
+      .post<Token>(this.prefix + 'access-token', body, { headers: headers })
+      .pipe(
+        map((data: Token) => {
+          this.cookieSvc.delete(`${this.cookieToken}`, '/', '/');
+          this.cookieSvc.set(
+            `_${this.cookieToken}`,
+            data.access_token,
+            data.expires
+          );
+          this.Logged.next(true);
+        })
+      );
+  }
+
+  recoverPassword(username: string) {
+    return this.http.post<null>(this.prefix + 'recover-password', username);
   }
 
   isLoggedIn() {
-    const tokenCheck = this.cookieSvc.check(`_${this.cookieToken}`)
-    this.Logged.next(tokenCheck)
-    return tokenCheck
+    const tokenCheck = this.cookieSvc.check(`_${this.cookieToken}`);
+    this.Logged.next(tokenCheck);
+    return tokenCheck;
   }
 
   getToken(): string {
-    return this.cookieSvc.get(`_${this.cookieToken}`)
+    return this.cookieSvc.get(`_${this.cookieToken}`);
   }
 
   logOut() {
-    this.cookieSvc.deleteAll()
-    this.cookieSvc.delete(`${this.cookieToken}`)
-    this.isLoggedIn()
-    this.router.navigate(['/login'])
+    this.cookieSvc.deleteAll();
+    this.cookieSvc.delete(`${this.cookieToken}`);
+    this.isLoggedIn();
+    this.router.navigate(['/login']);
   }
 
-  isSuperUser(){
-    this.userSvc.getEmpleado(0).subscribe(
-      data => this.isSuperUser$.next(data.is_superuser)
-    )
+  isSuperUser() {
+    this.userSvc
+      .getEmpleado(0)
+      .subscribe((data) => this.isSuperUser$.next(data.is_superuser));
   }
 }

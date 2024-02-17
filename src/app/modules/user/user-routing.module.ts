@@ -5,6 +5,7 @@ import { ActualizarComponent } from './pages/actualizar/actualizar.component';
 import { CrearComponent } from './pages/crear/crear.component';
 import { ListaComponent } from './pages/lista/lista.component';
 import { VerComponent } from './pages/ver/ver.component';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 
 const routes: Routes = [
   { path: '', component: ListaComponent, canActivate: [SuperuserGuard] },
@@ -20,6 +21,10 @@ const routes: Routes = [
   {
     path: 'ver/:id',
     component: VerComponent,
+  },
+  {
+    path: 'change-password/:id',
+    component: ChangePasswordComponent
   },
 ];
 
